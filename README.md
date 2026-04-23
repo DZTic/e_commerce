@@ -24,9 +24,7 @@ Ce projet est une plateforme de vente de jeux vidéo développée en PHP avec un
 3. Ouvrez votre navigateur et allez sur : [http://localhost:8000](http://localhost:8000)
 
 ## 👤 Accès Admin
-Un compte administrateur est déjà disponible pour tester les fonctionnalités de gestion :
-- **Utilisateur** : `kawete`
-- **Mot de passe** : *(Veuillez réinitialiser ou créer un nouveau compte si vous avez perdu le mot de passe original)*
+Un panneau admin est disponible
 
 ## 🛠️ Structure du Projet
 - `index.php` : Page d'accueil / Boutique
