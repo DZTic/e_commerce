@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="auth-container">
-    <h2 style="margin-bottom: 2rem; text-align: center;">Rejoignez GameVault</h2>
+    <h2 style="margin-bottom: 2rem; text-align: center; font-weight: 400; font-size: 1.8rem;">Rejoignez GameVault</h2>
     
     <form method="post">
         <input type="text" name="username" placeholder="Nom d'utilisateur" required>
@@ -19,8 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit">Créer mon compte</button>
     </form>
     
-    <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
-        Déjà inscrit ? <a href="login.php" style="color: var(--primary); text-decoration: none; font-weight: 600;">Se connecter</a>
+    <p style="text-align: center; margin-top: 2rem; color: var(--text-muted); font-size: 0.85rem;">
+        Déjà inscrit ? <a href="login.php" style="color: var(--text-main); text-decoration: none; font-weight: 500;">Se connecter</a>
     </p>
 </div>
 

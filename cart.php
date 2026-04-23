@@ -27,7 +27,9 @@ $stmt->execute([$user_id]);
 $total_price = $stmt->fetchColumn() ?: 0;
 ?>
 
-<h1 style="margin-bottom: 2rem;">Votre Panier</h1>
+<div class="page-header" style="text-align: left; margin: 3rem 0;">
+    <h1 style="font-size: 2rem;">Votre Panier</h1>
+</div>
 
 <div class="card" style="padding: 0;">
     <table>
@@ -43,14 +45,14 @@ $total_price = $stmt->fetchColumn() ?: 0;
         <tbody>
             <?php foreach ($items as $item): ?>
                 <tr>
-                    <td><span style="font-weight: 600;"><?= htmlspecialchars($item['name']) ?></span></td>
+                    <td><span style="font-weight: 500;"><?= htmlspecialchars($item['name']) ?></span></td>
                     <td><?= number_format($item['price'], 2) ?> EUR</td>
                     <td><?= $item['quantity'] ?></td>
-                    <td><span style="color: var(--primary); font-weight: 600;"><?= number_format($item['price'] * $item['quantity'], 2) ?> EUR</span></td>
+                    <td><span style="color: var(--text-main); font-weight: 500;"><?= number_format($item['price'] * $item['quantity'], 2) ?> EUR</span></td>
                     <td>
                         <form method="post" action="remove_from_cart.php">
                             <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                            <button type="submit" style="width: auto; padding: 0.4rem 0.8rem; background: var(--accent); font-size: 0.8rem;">Retirer</button>
+                            <button type="submit" class="btn-outline" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.7rem;">Retirer</button>
                         </form>
                     </td>
                 </tr>
@@ -66,9 +68,9 @@ $total_price = $stmt->fetchColumn() ?: 0;
 
 <?php if (!empty($items)): ?>
     <div style="display: flex; justify-content: flex-end; align-items: center; gap: 2rem; margin-top: 2rem;">
-        <div style="font-size: 1.5rem;">Total : <span style="font-weight: 800; color: var(--primary);"><?= number_format($total_price, 2) ?> EUR</span></div>
+        <div style="font-size: 1.2rem;">Total : <span style="font-weight: 600; color: var(--text-main);"><?= number_format($total_price, 2) ?> EUR</span></div>
         <form method="post" action="validate_order.php">
-            <button type="submit" style="width: auto; padding: 1rem 2.5rem; font-size: 1.1rem; border-radius: 99px; box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39);">
+            <button type="submit" style="width: auto; padding: 1rem 2.5rem; font-size: 1rem;">
                 Valider la commande
             </button>
         </form>
@@ -76,7 +78,7 @@ $total_price = $stmt->fetchColumn() ?: 0;
 <?php endif; ?>
 
 <div style="margin-top: 2rem;">
-    <a href="index.php" style="color: var(--text-muted); text-decoration: none;">&larr; Retour à la boutique</a>
+    <a href="index.php" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">&larr; Retour à la boutique</a>
 </div>
 
 <?php include 'includes/footer.php'; ?>

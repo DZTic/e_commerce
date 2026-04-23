@@ -22,10 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="auth-container">
-    <h2 style="margin-bottom: 2rem; text-align: center;">Connexion</h2>
+    <h2 style="margin-bottom: 2rem; text-align: center; font-weight: 400; font-size: 1.8rem;">Connexion</h2>
     
     <?php if (isset($error)): ?>
-        <p style="color: var(--accent); background: rgba(244, 63, 94, 0.1); padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 1.5rem; font-size: 0.9rem; text-align: center;">
+        <p style="color: #d32f2f; background: #ffebee; padding: 0.75rem; border-radius: 4px; margin-bottom: 1.5rem; font-size: 0.9rem; text-align: center; border: 1px solid #ffcdd2;">
             <?= $error ?>
         </p>
     <?php endif; ?>
@@ -36,8 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit">Se connecter</button>
     </form>
     
-    <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
-        Pas encore de compte ? <a href="register.php" style="color: var(--primary); text-decoration: none; font-weight: 600;">S'inscrire</a>
+    <p style="text-align: center; margin-top: 2rem; color: var(--text-muted); font-size: 0.85rem;">
+        Pas encore de compte ? <a href="register.php" style="color: var(--text-main); text-decoration: none; font-weight: 500;">S'inscrire</a>
     </p>
 </div>
 
