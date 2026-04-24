@@ -1,4 +1,4 @@
-# 🎮 GameVault - Site E-commerce Premium
+# 🎮 Cartoon's Animals - Site E-commerce Premium
 
 Ce projet est une plateforme de vente de jeux vidéo développée en PHP avec une base de données SQLite. 
 

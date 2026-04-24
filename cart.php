@@ -1,5 +1,6 @@
 <?php
-include 'includes/header.php';
+session_start();
+require 'config.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -25,6 +26,8 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([$user_id]);
 $total_price = $stmt->fetchColumn() ?: 0;
+
+include 'includes/header.php';
 ?>
 
 <div class="page-header" style="text-align: left; margin: 3rem 0;">

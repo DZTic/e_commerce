@@ -1,5 +1,6 @@
 <?php
-include 'includes/header.php';
+session_start();
+require 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -8,10 +9,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: login.php");
     exit();
 }
+
+include 'includes/header.php';
 ?>
 
 <div class="auth-container">
-    <h2 style="margin-bottom: 2rem; text-align: center; font-weight: 400; font-size: 1.8rem;">Rejoignez GameVault</h2>
+    <h2 style="margin-bottom: 2rem; text-align: center; font-weight: 400; font-size: 1.8rem;">Rejoignez Cartoon's Animals</h2>
     
     <form method="post">
         <input type="text" name="username" placeholder="Nom d'utilisateur" required>

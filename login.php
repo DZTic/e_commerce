@@ -1,5 +1,6 @@
 <?php
-include 'includes/header.php';
+session_start();
+require 'config.php';
 
 if (isset($_SESSION['user_id'])) {
     header('Location: index.php');
@@ -19,6 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Identifiants incorrects";
     }
 }
+
+include 'includes/header.php';
 ?>
 
 <div class="auth-container">

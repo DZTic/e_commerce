@@ -1,5 +1,6 @@
 <?php
-include 'includes/header.php';
+session_start();
+require 'config.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -14,6 +15,8 @@ if (!$isAdmin) {
     header('Location: index.php');
     exit();
 }
+
+include 'includes/header.php';
 ?>
 
 <h1 style="margin-bottom: 2rem;">Panneau d'Administration</h1>

@@ -1,5 +1,6 @@
 <?php
-include 'includes/header.php';
+session_start();
+require 'config.php';
 
 // Security Check
 if (!isset($_SESSION['user_id'])) { header('Location: login.php'); exit(); }
@@ -8,6 +9,8 @@ $stmt->execute([$_SESSION['user_id']]);
 if (!$stmt->fetchColumn()) { header('Location: index.php'); exit(); }
 
 $products = $pdo->query("SELECT * FROM products")->fetchAll();
+
+include 'includes/header.php';
 ?>
 
 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem;">
@@ -43,16 +46,21 @@ $products = $pdo->query("SELECT * FROM products")->fetchAll();
     <!-- Formulaire d'ajout -->
     <div class="card">
         <h3 style="margin-bottom: 1.5rem;">Nouveau Produit</h3>
-        <form method="post" action="add_products.php">
-            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Nom du jeu</label>
-            <input type="text" name="name" placeholder="Ex: Elden Ring" required>
+        <!-- L'attribut enctype="multipart/form-data" est OBLIGATOIRE pour qu'un formulaire puisse envoyer des fichiers -->
+        <form method="post" action="add_products.php" enctype="multipart/form-data">
+            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Nom de l'animal</label>
+            <input type="text" name="name" placeholder="Ex: Chaussette" required>
             
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Description</label>
             <input type="text" name="description" placeholder="Courte description..." required>
             
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Prix (EUR)</label>
             <input type="number" step="0.01" name="price" placeholder="59.99" required>
-            
+
+            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; margin-top: 1rem;">Image de l'animal (jpeg, png, jpg)</label>
+            <!-- Le champ de type "file" permet à l'utilisateur de choisir un fichier sur son ordinateur -->
+            <input type="file" id="fichier" name="fichier" accept="image/*" style="margin-bottom: 1rem;">
+
             <button type="submit">Ajouter le produit</button>
         </form>
     </div>

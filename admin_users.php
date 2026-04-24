@@ -1,5 +1,6 @@
 <?php
-include 'includes/header.php';
+session_start();
+require 'config.php';
 
 // Security Check
 if (!isset($_SESSION['user_id'])) { header('Location: login.php'); exit(); }
@@ -8,6 +9,8 @@ $stmt->execute([$_SESSION['user_id']]);
 if (!$stmt->fetchColumn()) { header('Location: index.php'); exit(); }
 
 $users = $pdo->query("SELECT id, username, is_admin FROM users")->fetchAll();
+
+include 'includes/header.php';
 ?>
 
 <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem;">

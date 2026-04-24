@@ -1,5 +1,6 @@
 <?php
-include 'includes/header.php';
+session_start();
+require 'config.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -7,16 +8,22 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $result = $pdo->query("SELECT * FROM products");
+
+include 'includes/header.php';
 ?>
 
 <header class="page-header">
-    <h1>Découvrez nos jeux</h1>
-    <p>Les meilleures aventures vous attendent.</p>
+    <h1>Découvrez nos animaux</h1>
+    <p>Trouvez le compagnon parfait pour votre famille.</p>
 </header>
 
 <div class="product-grid">
     <?php while($row = $result->fetch()) { ?>
         <div class="card">
+            <!-- Vérification et affichage de l'image de l'animal depuis la base de données -->
+            <?php if (!empty($row['image'])): ?>
+                <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px; height: 200px; object-fit: cover;">
+            <?php endif; ?>
             <div class="card-content">
                 <h3><?= htmlspecialchars($row['name']) ?></h3>
                 <p><?= htmlspecialchars($row['description']) ?></p>
