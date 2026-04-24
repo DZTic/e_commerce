@@ -17,7 +17,7 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameVault - Boutique</title>
+    <title>Cartoon's Animals - Boutique</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
     <nav>
-        <div class="logo">GameVault</div>
+        <div class="logo">Cartoon's Animals</div>
         <div>
             <a href="index.php">Boutique</a>
             <?php if (isset($_SESSION['user_id'])): ?>
