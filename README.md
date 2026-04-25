@@ -34,4 +34,4 @@ Un compte administrateur est déjà disponible pour tester les fonctionnalités 
 - `admin.php` : Tableau de bord administrateur
 - `assets/css/style.css` : Design système (Vanilla CSS)
 - `includes/` : Composants réutilisables (Header/Footer)
-- `database.sqlite` : Base de données locale
+- `db.sqlite` : Base de données locale

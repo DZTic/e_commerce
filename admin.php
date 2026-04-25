@@ -36,13 +36,7 @@ include 'includes/header.php';
             <p>Voir la liste des membres inscrits.</p>
         </div>
     </a>
-    <a href="adminer.php?sqlite=&username=&db=database.sqlite" target="_blank" style="text-decoration: none;">
-        <div class="card" style="text-align: center; padding: 3rem; border: 1px dashed var(--primary);">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🗄️</div>
-            <h3 style="color: white;">Base de Données</h3>
-            <p>Accéder à Adminer pour gérer SQLite.</p>
-        </div>
-    </a>
+
 </div>
 
 <?php include 'includes/footer.php'; ?>
