@@ -19,7 +19,8 @@ include 'includes/header.php';
 
 <div class="product-grid">
     <?php while($row = $result->fetch()) { ?>
-        <div class="card">
+        <!-- On ajoute un curseur pointeur et un événement au clic pour ouvrir la pop-up -->
+        <div class="card" onclick="openAnimalDetails(<?= $row['id'] ?>)" style="cursor: pointer;">
             <!-- Vérification et affichage de l'image de l'animal depuis la base de données -->
             <?php if (!empty($row['image'])): ?>
                 <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px; height: 200px; object-fit: cover;">
@@ -29,12 +30,19 @@ include 'includes/header.php';
                 <p><?= htmlspecialchars($row['description']) ?></p>
             </div>
             <div class="price"><?= number_format($row['price'], 2) ?> EUR</div>
-            <form method="post" action="add_to_cart.php">
+            
+            <!-- Le formulaire d'ajout au panier. stopPropagation() empêche l'ouverture de la pop-up lors du clic sur le bouton -->
+            <form method="post" action="add_to_cart.php" onclick="event.stopPropagation();">
                 <input type="hidden" name="product_id" value="<?= $row['id'] ?>">
                 <button type="submit" class="btn-outline">Ajouter au panier</button>
             </form>
         </div>
     <?php } ?>
 </div>
+
+<?php 
+// Inclusion de la structure de la pop-up et de sa logique JavaScript
+include 'includes/modal_container.php'; 
+?>
 
 <?php include 'includes/footer.php'; ?>

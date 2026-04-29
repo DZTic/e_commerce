@@ -8,6 +8,7 @@ $stmt = $pdo->prepare("SELECT is_admin FROM users WHERE id = ?");
 $stmt->execute([$_SESSION['user_id']]);
 if (!$stmt->fetchColumn()) { header('Location: index.php'); exit(); }
 
+
 $products = $pdo->query("SELECT * FROM products")->fetchAll();
 
 include 'includes/header.php';
@@ -57,9 +58,21 @@ include 'includes/header.php';
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Prix (EUR)</label>
             <input type="number" step="0.01" name="price" placeholder="59.99" required>
 
-            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; margin-top: 1rem;">Image de l'animal (jpeg, png, jpg)</label>
+            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Âge (ans)</label>
+            <input type="number" name="age" placeholder="Ex: 2">
+
+            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Santé</label>
+            <input type="text" name="health" placeholder="Ex: Vacciné et pucé">
+
+            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Caractère</label>
+            <input type="text" name="character" placeholder="Ex: Joueur et calme">
+
+            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Disponibilité</label>
+            <input type="text" name="availability" placeholder="Ex: Immédiate">
+
+            <label for="fichier" style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; margin-top: 1rem; cursor: pointer;">Image de l'animal (jpeg, png, jpg)</label>
             <!-- Le champ de type "file" permet à l'utilisateur de choisir un fichier sur son ordinateur -->
-            <input type="file" id="fichier" name="fichier" accept="image/*" style="margin-bottom: 1rem;">
+            <input type="file" id="fichier" name="fichier" accept=".jpg,.jpeg,.png">
 
             <button type="submit">Ajouter le produit</button>
         </form>
