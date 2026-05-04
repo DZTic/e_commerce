@@ -24,7 +24,7 @@ include 'includes/header.php';
 <div class="product-grid">
     <a href="admin_products.php" style="text-decoration: none;">
         <div class="card" style="text-align: center; padding: 3rem;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🎮</div>
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🖥️</div>
             <h3 style="color: white;">Gérer les produits</h3>
             <p>Ajouter, modifier ou supprimer des jeux.</p>
         </div>
