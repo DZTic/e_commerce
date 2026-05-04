@@ -4,6 +4,11 @@ require 'config.php';
 
 // Vérifie que l'utilisateur est connecté
 if (!isset($_SESSION['user_id'])) {
+    // Si ce n'est pas une requête AJAX, on redirige
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        echo json_encode(['error' => 'Non connecté']);
+        exit();
+    }
     header('Location: login.php');
     exit();
 }
@@ -25,5 +30,23 @@ if ($stmt->fetch()) {
         ->execute([$user_id, $product_id]);
 }
 
+// Calcul du nouveau total d'articles pour la réponse AJAX
+$stmt = $pdo->prepare("SELECT SUM(quantity) as total FROM cart_items WHERE user_id = ?");
+$stmt->execute([$user_id]);
+$total_items = $stmt->fetchColumn() ?: 0;
+
+// Si c'est une requête AJAX (détectée via l'en-tête X-Requested-With ou si on décide de tout passer en JSON)
+if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' || isset($_POST['ajax'])) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'success' => true,
+        'total_items' => $total_items,
+        'message' => 'Produit ajouté au panier !'
+    ]);
+    exit();
+}
+
+// Comportement par défaut (fallback si JS est désactivé)
 header('Location: index.php');
 exit();
+

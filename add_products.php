@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // 5. Insérer le produit dans la base de données. On ajoute l'imagePath qu'on vient de calculer (ou null s'il n'y a pas d'image)
-    $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image, age, health, character, availability) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image, age, health, character, availability, subcategory_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([
         $_POST['name'], 
         $_POST['description'], 
@@ -47,7 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_POST['age'] ?? null,
         $_POST['health'] ?? null,
         $_POST['character'] ?? null,
-        $_POST['availability'] ?? null
+        $_POST['availability'] ?? null,
+        $_POST['subcategory_id'] ?? null
     ]);
 }
 

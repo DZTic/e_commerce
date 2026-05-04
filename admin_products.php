@@ -9,7 +9,8 @@ $stmt->execute([$_SESSION['user_id']]);
 if (!$stmt->fetchColumn()) { header('Location: index.php'); exit(); }
 
 
-$products = $pdo->query("SELECT * FROM products")->fetchAll();
+$products = $pdo->query("SELECT p.*, s.name as sub_name FROM products p LEFT JOIN subcategories s ON p.subcategory_id = s.id")->fetchAll();
+$subcategories = $pdo->query("SELECT s.*, c.name as cat_name FROM subcategories s JOIN categories c ON s.category_id = c.id ORDER BY c.name, s.name")->fetchAll();
 
 include 'includes/header.php';
 ?>
@@ -33,7 +34,10 @@ include 'includes/header.php';
             <tbody>
                 <?php foreach ($products as $p): ?>
                     <tr>
-                        <td><?= htmlspecialchars($p['name']) ?></td>
+                        <td>
+                            <?= htmlspecialchars($p['name']) ?><br>
+                            <small style="color: var(--primary); text-transform: uppercase;"><?= htmlspecialchars($p['sub_name'] ?? 'Inconnu') ?></small>
+                        </td>
                         <td><?= number_format($p['price'], 2) ?> EUR</td>
                         <td>
                             <a href="delete_products.php?id=<?= $p['id'] ?>" style="color: var(--accent); text-decoration: none; font-size: 0.9rem;">Supprimer</a>
@@ -57,6 +61,14 @@ include 'includes/header.php';
             
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Prix (EUR)</label>
             <input type="number" step="0.01" name="price" placeholder="59.99" required>
+
+            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Espèce / Catégorie</label>
+            <select name="subcategory_id" required>
+                <option value="">-- Choisir --</option>
+                <?php foreach ($subcategories as $s): ?>
+                    <option value="<?= $s['id'] ?>"><?= htmlspecialchars($s['cat_name']) ?> - <?= htmlspecialchars($s['name']) ?></option>
+                <?php endforeach; ?>
+            </select>
 
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Âge (ans)</label>
             <input type="number" name="age" placeholder="Ex: 2">

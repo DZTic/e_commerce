@@ -1,15 +1,23 @@
 /* Définition des couleurs principales pour le style cartoon */
 :root {
-    --primary: #FF5722; /* Couleur orange vif pour les boutons */
+    --primary: #FF5722;
+    /* Couleur orange vif pour les boutons */
     --primary-hover: #E64A19;
-    --bg-main: #FFF8E1; /* Fond jaune très clair */
-    --bg-card: #FFFFFF; /* Fond blanc pour les cartes */
-    --text-main: #000000; /* Texte noir pour un bon contraste */
+    --bg-main: #FFF8E1;
+    /* Fond jaune très clair */
+    --bg-card: #FFFFFF;
+    /* Fond blanc pour les cartes */
+    --text-main: #000000;
+    /* Texte noir pour un bon contraste */
     --text-muted: #424242;
-    --border: #000000; /* Bordures noires épaisses caractéristiques du style cartoon */
-    --success: #4CAF50; /* Vert pour les succès */
-    --shadow: 4px 4px 0px #000000; /* Ombre portée dure typique des cartoons */
-    --shadow-hover: 6px 6px 0px #000000; /* Ombre plus grande au survol */
+    --border: #000000;
+    /* Bordures noires épaisses caractéristiques du style cartoon */
+    --success: #4CAF50;
+    /* Vert pour les succès */
+    --shadow: 4px 4px 0px #000000;
+    /* Ombre portée dure typique des cartoons */
+    --shadow-hover: 6px 6px 0px #000000;
+    /* Ombre plus grande au survol */
 }
 
 /* Reset de base et application d'une police amusante */
@@ -39,8 +47,10 @@ body {
 
 /* Barre de navigation style cartoon */
 nav {
-    background: #FFEB3B; /* Jaune vif */
-    border-bottom: 3px solid var(--border); /* Bordure épaisse en bas */
+    background: #FFEB3B;
+    /* Jaune vif */
+    border-bottom: 3px solid var(--border);
+    /* Bordure épaisse en bas */
     padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
@@ -48,7 +58,8 @@ nav {
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0px 4px 0px rgba(0,0,0,1); /* Ombre dure sous la navigation */
+    box-shadow: 0px 4px 0px rgba(0, 0, 0, 1);
+    /* Ombre dure sous la navigation */
 }
 
 nav a {
@@ -58,7 +69,8 @@ nav a {
     font-size: 1rem;
     font-weight: bold;
     text-transform: uppercase;
-    transition: transform 0.2s ease; /* Animation fluide pour le survol */
+    transition: transform 0.2s ease;
+    /* Animation fluide pour le survol */
     display: inline-block;
 }
 
@@ -84,10 +96,12 @@ nav a:hover {
     text-align: center;
     background: #FFFFFF;
     border: 3px solid var(--border);
-    border-radius: 15px; /* Coins très arrondis */
+    border-radius: 15px;
+    /* Coins très arrondis */
     padding: 2rem;
     box-shadow: var(--shadow);
-    transform: rotate(-1deg); /* Légère rotation pour un côté décalé et fun */
+    transform: rotate(-1deg);
+    /* Légère rotation pour un côté décalé et fun */
 }
 
 .page-header h1 {
@@ -95,7 +109,8 @@ nav a:hover {
     font-weight: 900;
     text-transform: uppercase;
     color: var(--text-main);
-    text-shadow: 3px 3px 0px #FFEB3B; /* Ombre jaune sous le titre principal */
+    text-shadow: 3px 3px 0px #FFEB3B;
+    /* Ombre jaune sous le titre principal */
 }
 
 .page-header p {
@@ -116,13 +131,15 @@ nav a:hover {
 /* Cartes de produits façon cases de BD */
 .card {
     background: var(--bg-card);
-    border: 3px solid var(--border); /* Bordure noire épaisse */
+    border: 3px solid var(--border);
+    /* Bordure noire épaisse */
     padding: 1.5rem;
     border-radius: 15px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow); /* Ombre dure en bas à droite */
+    box-shadow: var(--shadow);
+    /* Ombre dure en bas à droite */
     position: relative;
 }
 
@@ -167,10 +184,12 @@ nav a:hover {
 /* Prix en évidence style étiquette */
 .price {
     font-weight: 900;
-    color: #4CAF50; /* Vert flash pour l'argent */
+    color: #4CAF50;
+    /* Vert flash pour l'argent */
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    text-shadow: 1px 1px 0px #000; /* Petite bordure noire autour du texte vert */
+    text-shadow: 1px 1px 0px #000;
+    /* Petite bordure noire autour du texte vert */
 }
 
 /* Formulaires de connexion / inscription */
@@ -185,7 +204,9 @@ nav a:hover {
 }
 
 /* Champs de saisie imposants */
-input:not([type="file"]), select, textarea {
+input:not([type="file"]),
+select,
+textarea {
     width: 100%;
     padding: 1rem;
     background: #FFF;
@@ -195,7 +216,8 @@ input:not([type="file"]), select, textarea {
     margin-bottom: 1.5rem;
     font-size: 1rem;
     font-weight: bold;
-    box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1); /* Ombre interne pour l'effet de profondeur */
+    box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.1);
+    /* Ombre interne pour l'effet de profondeur */
 }
 
 /* Style spécifique pour le sélecteur de fichier */
@@ -212,7 +234,7 @@ input:not([type="file"]):focus {
     outline: none;
     border-color: var(--primary);
     background: #FFFFF0;
-    box-shadow: inset 2px 2px 0px rgba(0,0,0,0.2), 0 0 0 4px rgba(255, 87, 34, 0.2);
+    box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.2), 0 0 0 4px rgba(255, 87, 34, 0.2);
 }
 
 /* Boutons d'action volumineux et rebondissants */
@@ -229,14 +251,17 @@ button {
     transition: all 0.1s ease;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    box-shadow: var(--shadow); /* Ombre forte */
+    box-shadow: var(--shadow);
+    /* Ombre forte */
     text-shadow: 1px 1px 0px #000;
 }
 
 /* Effet d'enfoncement physique quand on clique sur le bouton */
 button:active {
-    transform: translate(4px, 4px); /* Se déplace de la taille de l'ombre vers le bas/droite */
-    box-shadow: 0px 0px 0px #000000; /* L'ombre disparaît pour simuler l'appui complet */
+    transform: translate(4px, 4px);
+    /* Se déplace de la taille de l'ombre vers le bas/droite */
+    box-shadow: 0px 0px 0px #000000;
+    /* L'ombre disparaît pour simuler l'appui complet */
 }
 
 button:hover {
@@ -257,20 +282,23 @@ button:hover {
 /* Tableaux (Panier et Admin) délimités façon grille dessinée */
 table {
     width: 100%;
-    border-collapse: separate; /* Permet les coins arrondis avec des bordures */
+    border-collapse: separate;
+    /* Permet les coins arrondis avec des bordures */
     border-spacing: 0;
     margin: 3rem 0;
     background: #FFF;
     border: 3px solid var(--border);
     border-radius: 15px;
-    overflow: hidden; /* Empêche le fond de dépasser des coins */
+    overflow: hidden;
+    /* Empêche le fond de dépasser des coins */
     box-shadow: var(--shadow);
 }
 
 th {
     text-align: left;
     color: var(--text-main);
-    background: #FFEB3B; /* Ligne d'en-tête jaune */
+    background: #FFEB3B;
+    /* Ligne d'en-tête jaune */
     border-bottom: 3px solid var(--border);
     padding: 1rem;
     font-weight: 900;
@@ -280,7 +308,8 @@ th {
 
 td {
     padding: 1.5rem 1rem;
-    border-bottom: 2px dashed var(--border); /* Ligne de séparation en pointillés (funky) */
+    border-bottom: 2px dashed var(--border);
+    /* Ligne de séparation en pointillés (funky) */
     color: var(--text-main);
     font-weight: bold;
 }
@@ -292,10 +321,12 @@ tr:last-child td {
 
 /* Badges (compteur du panier) façon petite bulle explosive */
 .badge {
-    background: #F44336; /* Rouge très vif */
+    background: #F44336;
+    /* Rouge très vif */
     color: white;
     padding: 0.2rem 0.6rem;
-    border: 2px solid var(--border); /* Bordure noire pour délimiter la bulle */
+    border: 2px solid var(--border);
+    /* Bordure noire pour délimiter la bulle */
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 900;
@@ -306,7 +337,8 @@ tr:last-child td {
 
 /* Styles pour la pop-up (Modal) */
 .modal {
-    display: none; /* Caché par défaut */
+    display: none;
+    /* Caché par défaut */
     position: fixed;
     z-index: 2000;
     left: 0;
@@ -314,8 +346,10 @@ tr:last-child td {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.7); /* Fond noir transparent */
-    backdrop-filter: blur(5px); /* Flou d'arrière-plan pour un effet premium */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Fond noir transparent */
+    backdrop-filter: blur(5px);
+    /* Flou d'arrière-plan pour un effet premium */
 }
 
 .modal-content {
@@ -326,14 +360,23 @@ tr:last-child td {
     width: 80%;
     max-width: 700px;
     border-radius: 20px;
-    box-shadow: 10px 10px 0px #000; /* Ombre cartoon très marquée */
+    box-shadow: 10px 10px 0px #000;
+    /* Ombre cartoon très marquée */
     position: relative;
-    animation: modal-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animation de rebond */
+    animation: modal-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Animation de rebond */
 }
 
 @keyframes modal-pop {
-    0% { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .close-modal {
@@ -403,4 +446,139 @@ tr:last-child td {
 .modal-details-list li::before {
     content: '🐾';
     margin-right: 10px;
+}
+
+/* Filtres de catégories */
+.filters-container {
+    margin-bottom: 2rem;
+    background: #FFFFFF;
+    border: 3px solid var(--border);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.filters-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    background: #E0E0E0;
+    color: var(--text-main);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.05);
+}
+
+.subcategories-container {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px dashed var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.subcategory-btn {
+    padding: 0.3rem 0.8rem;
+    background: #F5F5F5;
+    font-size: 0.9rem;
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.subcategory-btn:hover,
+.subcategory-btn.active {
+    background: #FFEB3B;
+    transform: scale(1.05);
+}
+
+/* Barre de recherche style cartoon */
+.search-bar-container {
+    margin: 2rem 0;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.search-form input {
+    flex-grow: 1;
+    margin-bottom: 0 !important;
+    background-color: white !important;
+}
+
+.search-btn {
+    width: auto !important;
+    white-space: nowrap;
+    padding: 0 2rem;
+}
+
+.btn-clear {
+    background: #FFCDD2;
+    border: 3px solid var(--border);
+    border-radius: 10px;
+    padding: 0 1rem;
+    color: #D32F2F;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    transition: all 0.1s;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.btn-clear:hover {
+    background: #EF9A9A;
+    transform: scale(1.05);
+}
+
+/* --- Nouveaux styles pour le feedback AJAX --- */
+
+/* Bouton en état de succès */
+.btn-success {
+    background: var(--success) !important;
+    color: white !important;
+    border-color: var(--border) !important;
+    box-shadow: 2px 2px 0px #000 !important;
+    transform: translate(2px, 2px);
+}
+
+/* Animation de pulsation pour le badge du panier */
+@keyframes pulse-badge {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.4) rotate(5deg);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: pulse-badge 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

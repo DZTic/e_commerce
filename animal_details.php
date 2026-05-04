@@ -9,8 +9,12 @@ require 'config.php';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($id > 0) {
-    // Préparation de la requête pour récupérer l'animal spécifique
-    $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+    // Préparation de la requête pour récupérer l'animal spécifique avec ses catégories
+    $stmt = $pdo->prepare("SELECT p.*, s.name as subcategory_name, c.name as category_name 
+                           FROM products p 
+                           LEFT JOIN subcategories s ON p.subcategory_id = s.id 
+                           LEFT JOIN categories c ON s.category_id = c.id 
+                           WHERE p.id = ?");
     $stmt->execute([$id]);
     $animal = $stmt->fetch();
 
@@ -33,6 +37,8 @@ if ($id > 0) {
             <!-- Informations complémentaires issues de la base de données -->
             <h3>Informations complémentaires</h3>
             <ul class="modal-details-list">
+                <li><strong>Catégorie :</strong> <?= htmlspecialchars($animal['category_name'] ?? 'Divers') ?></li>
+                <li><strong>Espèce :</strong> <?= htmlspecialchars($animal['subcategory_name'] ?? 'Inconnu') ?></li>
                 <li><strong>Âge :</strong> <?= htmlspecialchars($animal['age'] ?? 'Inconnu') ?> ans</li>
                 <li><strong>Santé :</strong> <?= htmlspecialchars($animal['health'] ?? 'Non spécifiée') ?></li>
                 <li><strong>Caractère :</strong> <?= htmlspecialchars($animal['character'] ?? 'Non spécifié') ?></li>
