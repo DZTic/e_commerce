@@ -29,6 +29,8 @@ if (isset($_SESSION['user_id'])) {
         <div>
             <a href="index.php">Boutique</a>
             <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="propose_animal.php">Proposer un animal</a>
+                <a href="favorites.php">Mes Favoris</a>
                 <a href="cart.php">Panier <span class="badge"><?= $cart_badges ?></span></a>
                 <?php 
                 // Check if admin

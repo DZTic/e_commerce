@@ -44,6 +44,14 @@ $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $products = $stmt->fetchAll();
 
+// Récupération des favoris de l'utilisateur connecté pour l'affichage du bouton
+$user_favorites = [];
+if (isset($_SESSION['user_id'])) {
+    $fav_stmt = $pdo->prepare("SELECT product_id FROM favorites WHERE user_id = ?");
+    $fav_stmt->execute([$_SESSION['user_id']]);
+    $user_favorites = $fav_stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
 // Récupération des catégories pour le filtre
 $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
 $subcategories = [];
@@ -66,35 +74,19 @@ include 'includes/header.php';
 include 'nav.php'; 
 ?>
 
-<!-- Section des Filtres -->
-<div class="filters-container">
-    <div class="filters-group">
-        <strong>Catégories :</strong>
-        <a href="index.php" class="filter-btn <?= !$category_id ? 'active' : '' ?>">Tous</a>
-        <?php foreach ($categories as $cat): ?>
-            <a href="index.php?category=<?= $cat['id'] ?>" class="filter-btn <?= $category_id == $cat['id'] ? 'active' : '' ?>">
-                <?= htmlspecialchars($cat['name']) ?>
-            </a>
-        <?php endforeach; ?>
-    </div>
-
-    <?php if ($category_id && !empty($subcategories)): ?>
-        <div class="subcategories-container">
-            <strong>Sous-catégories :</strong>
-            <a href="index.php?category=<?= $category_id ?>" class="subcategory-btn <?= !$subcategory_id ? 'active' : '' ?>">Tous</a>
-            <?php foreach ($subcategories as $sub): ?>
-                <a href="index.php?category=<?= $category_id ?>&subcategory=<?= $sub['id'] ?>" class="subcategory-btn <?= $subcategory_id == $sub['id'] ? 'active' : '' ?>">
-                    <?= htmlspecialchars($sub['name']) ?>
-                </a>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
-</div>
+<?php include 'includes/filters.php'; ?>
 
 <div class="product-grid">
-    <?php foreach($products as $row) { ?>
+    <?php foreach($products as $row) { 
+        $is_favorite = in_array($row['id'], $user_favorites);
+    ?>
         <!-- On ajoute un curseur pointeur et un événement au clic pour ouvrir la pop-up -->
-        <div class="card" onclick="openAnimalDetails(<?= $row['id'] ?>)" style="cursor: pointer;">
+        <div class="card" onclick="openAnimalDetails(<?= $row['id'] ?>)" style="cursor: pointer; position: relative;">
+            
+            <!-- Petit cœur indicateur de favori sur l'image -->
+            <div id="fav-indicator-<?= $row['id'] ?>" style="position: absolute; top: 15px; right: 15px; font-size: 1.5rem; display: <?= $is_favorite ? 'block' : 'none' ?>; pointer-events: none; text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.8);">
+                ❤️
+            </div>
             <!-- Vérification et affichage de l'image de l'animal depuis la base de données -->
             <?php if (!empty($row['image'])): ?>
                 <img src="<?= htmlspecialchars($row['image']) ?>" alt="<?= htmlspecialchars($row['name']) ?>" class="card-img" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px; height: 200px; object-fit: cover;">

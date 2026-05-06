@@ -50,12 +50,31 @@ include 'includes/header.php';
                 <tr>
                     <td><span style="font-weight: 500;"><?= htmlspecialchars($item['name']) ?></span></td>
                     <td><?= number_format($item['price'], 2) ?> EUR</td>
-                    <td><?= $item['quantity'] ?></td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <!-- Bouton -1 -->
+                            <form method="post" action="remove_from_cart.php" style="margin: 0;">
+                                <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                                <input type="hidden" name="action" value="decrement">
+                                <button type="submit" class="btn-outline" style="width: auto; padding: 0.2rem 0.6rem; font-size: 0.9rem; font-weight: bold; background: white; border-color: var(--border); border-radius: 5px; cursor: pointer;">-</button>
+                            </form>
+                            
+                            <span style="font-size: 1.1rem; font-weight: bold; min-width: 20px; text-align: center;"><?= $item['quantity'] ?></span>
+                            
+                            <!-- Bouton +1 -->
+                            <form method="post" action="remove_from_cart.php" style="margin: 0;">
+                                <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
+                                <input type="hidden" name="action" value="increment">
+                                <button type="submit" class="btn-outline" style="width: auto; padding: 0.2rem 0.6rem; font-size: 0.9rem; font-weight: bold; background: white; border-color: var(--border); border-radius: 5px; cursor: pointer;">+</button>
+                            </form>
+                        </div>
+                    </td>
                     <td><span style="color: var(--text-main); font-weight: 500;"><?= number_format($item['price'] * $item['quantity'], 2) ?> EUR</span></td>
                     <td>
                         <form method="post" action="remove_from_cart.php">
                             <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                            <button type="submit" class="btn-outline" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.7rem;">Retirer</button>
+                            <input type="hidden" name="action" value="remove">
+                            <button type="submit" class="btn-outline" style="width: auto; padding: 0.4rem 0.8rem; font-size: 0.7rem; color: #D32F2F; border-color: #FFCDD2; background: #FFEBEE;">Supprimer</button>
                         </form>
                     </td>
                 </tr>
@@ -70,13 +89,24 @@ include 'includes/header.php';
 </div>
 
 <?php if (!empty($items)): ?>
-    <div style="display: flex; justify-content: flex-end; align-items: center; gap: 2rem; margin-top: 2rem;">
-        <div style="font-size: 1.2rem;">Total : <span style="font-weight: 600; color: var(--text-main);"><?= number_format($total_price, 2) ?> EUR</span></div>
-        <form method="post" action="validate_order.php">
-            <button type="submit" style="width: auto; padding: 1rem 2.5rem; font-size: 1rem;">
-                Valider la commande
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; flex-wrap: wrap; gap: 1rem;">
+        
+        <!-- Bouton Tout retirer (Vider le panier) -->
+        <form method="post" action="remove_from_cart.php" style="margin: 0;">
+            <input type="hidden" name="action" value="clear">
+            <button type="submit" class="btn-clear" style="padding: 0.8rem 1.5rem; font-size: 0.9rem;">
+                Vider le panier
             </button>
         </form>
+
+        <div style="display: flex; align-items: center; gap: 2rem;">
+            <div style="font-size: 1.2rem;">Total : <span style="font-weight: 600; color: var(--text-main);"><?= number_format($total_price, 2) ?> EUR</span></div>
+            <form method="post" action="validate_order.php" style="margin: 0;">
+                <button type="submit" style="width: auto; padding: 1rem 2.5rem; font-size: 1rem;">
+                    Valider la commande
+                </button>
+            </form>
+        </div>
     </div>
 <?php endif; ?>
 
