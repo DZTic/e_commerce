@@ -14,6 +14,7 @@
 7. [Sécurité](#sécurité)
 8. [Design et UX](#design)
 9. [Points forts et améliorations](#points-forts)
+10. [Vocabulaire technique](#vocabulaire)
 
 ---
 
@@ -1617,6 +1618,25 @@ nav a:hover {
    - Chat entre utilisateurs
    - Notifications de messages
    - Historique
+
+---
+
+## 📖 VOCABULAIRE TECHNIQUE
+
+Voici les termes techniques utilisés dans ce projet et leurs définitions :
+
+- **MVC (Model-View-Controller)** : Pattern architectural séparant la logique de données (Modèle), l'interface utilisateur (Vue) et la logique de contrôle (Contrôleur).
+- **AJAX (Asynchronous JavaScript and XML)** : Technique permettant de mettre à jour dynamiquement une partie d'une page web sans rechargement complet.
+- **PDO (PHP Data Objects)** : Extension PHP fournissant une interface uniforme pour accéder à divers systèmes de gestion de bases de données.
+- **SQLite** : Système de gestion de base de données relationnelle léger et sans serveur, stocké dans un fichier unique.
+- **Bcrypt** : Algorithme de hachage robuste utilisé pour sécuriser le stockage des mots de passe.
+- **XSS (Cross-Site Scripting)** : Vulnérabilité web permettant l'injection de scripts malveillants dans le navigateur d'un autre utilisateur.
+- **Responsive Design** : Conception web qui adapte l'affichage du contenu selon la taille de l'écran (mobile, tablette, desktop).
+- **Glassmorphism** : Tendance design utilisant des effets de transparence et de flou pour simuler du verre dépoli.
+- **CRUD (Create, Read, Update, Delete)** : Acronyme désignant les quatre opérations de base pour gérer des données (Créer, Lire, Mettre à jour, Supprimer).
+- **Hachage** : Transformation d'une donnée en une empreinte numérique unique et irréversible.
+- **Requête préparée** : Technique SQL consistant à compiler la requête avant d'y insérer les paramètres, empêchant ainsi les injections SQL.
+- **Session** : Mécanisme de stockage temporaire de données côté serveur pour identifier un utilisateur à travers plusieurs pages.
 
 ---
 
