@@ -44,12 +44,17 @@ $stmt = $pdo->prepare($query);
 $stmt->execute($params);
 $products = $stmt->fetchAll();
 
-// Récupération des favoris de l'utilisateur connecté pour l'affichage du bouton
+// Récupération des favoris et du panier de l'utilisateur connecté pour l'affichage des boutons
 $user_favorites = [];
+$user_cart = [];
 if (isset($_SESSION['user_id'])) {
     $fav_stmt = $pdo->prepare("SELECT product_id FROM favorites WHERE user_id = ?");
     $fav_stmt->execute([$_SESSION['user_id']]);
     $user_favorites = $fav_stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    $cart_stmt = $pdo->prepare("SELECT product_id FROM cart_items WHERE user_id = ?");
+    $cart_stmt->execute([$_SESSION['user_id']]);
+    $user_cart = $cart_stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
 // Récupération des catégories pour le filtre
@@ -79,6 +84,7 @@ include 'nav.php';
 <div class="product-grid">
     <?php foreach($products as $row) { 
         $is_favorite = in_array($row['id'], $user_favorites);
+        $is_in_cart = in_array($row['id'], $user_cart);
     ?>
         <!-- On ajoute un curseur pointeur et un événement au clic pour ouvrir la pop-up -->
         <div class="card" onclick="openAnimalDetails(<?= $row['id'] ?>)" style="cursor: pointer; position: relative;">
@@ -100,11 +106,17 @@ include 'nav.php';
             </div>
             <div class="price"><?= number_format($row['price'], 2) ?> EUR</div>
             
-            <!-- Le formulaire d'ajout au panier. stopPropagation() empêche l'ouverture de la pop-up lors du clic sur le bouton -->
-            <form method="post" action="add_to_cart.php" onclick="event.stopPropagation();">
-                <input type="hidden" name="product_id" value="<?= $row['id'] ?>">
-                <button type="submit" class="btn-outline">Ajouter au panier</button>
-            </form>
+            <!-- Affichage du bouton selon l'état de l'animal -->
+            <?php if ($row['is_sold']): ?>
+                <button type="button" class="btn-outline" style="background-color: #ffe6e6; border-color: #ffcccc; color: #cc0000; cursor: not-allowed; width: 100%;" onclick="event.stopPropagation();" disabled>Déjà adopté</button>
+            <?php elseif ($is_in_cart): ?>
+                <button type="button" class="btn-outline btn-disabled" style="width: 100%;" onclick="event.stopPropagation();" disabled>Déjà dans le panier</button>
+            <?php else: ?>
+                <form method="post" action="add_to_cart.php" onclick="event.stopPropagation();">
+                    <input type="hidden" name="product_id" value="<?= $row['id'] ?>">
+                    <button type="submit" class="btn-outline">Ajouter au panier</button>
+                </form>
+            <?php endif; ?>
         </div>
     <?php } ?>
 </div>

@@ -77,14 +77,25 @@ if (move_uploaded_file($tmp, $destinationChemin)) {
    - Si OK $\rightarrow$ `INSERT INTO cart_items`.
 3. **AJAX** : Si la requête vient de JS, PHP renvoie un `json_encode(['success' => true, ...])` au lieu de rediriger.
 
-### Flux : "Valider la commande" (`validate_order.php`)
-C'est la partie la plus complexe, soyez précis :
-1. **Calcul** : On fait un `SUM(quantity * price)` avec une **Jointure (JOIN)** entre `cart_items` et `products` pour avoir le prix total.
-2. **Commande** : On crée une ligne dans la table `orders`.
-3. **Mise à jour** : 
-   - On marque les produits comme `is_sold = 1` (car un animal est unique).
-   - On supprime ces produits des paniers de **tous** les autres utilisateurs (car ils ne sont plus disponibles).
-4. **Nettoyage** : On vide le panier de l'acheteur.
+### Flux : "Proposer un animal" (`propose_animal.php`)
+1. **Validation** : Le script vérifie que TOUS les champs sont remplis et que le prix/âge ne sont pas négatifs.
+2. **Upload** : L'image est vérifiée (extension jpg/png) puis déplacée via `move_uploaded_file()` vers `/assets/images/`.
+3. **Insertion** : Les données sont insérées en BDD via une requête préparée.
+
+### Flux : "Gérer les favoris" (`add_favorite.php`)
+1. **Toggle** : Le script vérifie si l'animal est déjà en favori.
+2. **Action** : S'il y est $\rightarrow$ `DELETE`, s'il n'y est pas $\rightarrow$ `INSERT`.
+3. **AJAX** : Le serveur répond en JSON (`is_favorite: true/false`), permettant au cœur de changer de couleur instantanément sans recharger la page.
+
+### Flux : "Valider une adoption" (`process_order.php`)
+C'est le cœur du système de gestion admin :
+1. **Décision** : L'admin clique sur "Valider" ou "Refuser".
+2. **Si Validé** :
+   - Le statut de la demande passe à `validee`.
+   - L'animal est marqué `is_sold = 1` (disparaît de la boutique).
+   - **Nettoyage Global** : L'animal est supprimé des paniers de TOUS les utilisateurs (car il n'est plus disponible).
+   - **Concurrence** : Toutes les autres demandes en attente pour ce même animal sont automatiquement refusées.
+3. **Si Refusé** : Le statut passe à `refusee`, l'animal reste disponible.
 
 ---
 
@@ -99,7 +110,9 @@ C'est la partie la plus complexe, soyez précis :
 | `implode(" AND ", $conditions)` | "Transforme un tableau de conditions SQL en une chaîne de caractères séparée par ' AND '." |
 | `number_format($price, 2)` | "Formate le nombre pour afficher exactement 2 décimales (format monétaire)." |
 | `$_SESSION` | "Variable superglobale qui stocke des données côté serveur liées à un utilisateur spécifique." |
-| `$_POST` / `$_GET` | "Données envoyées via un formulaire (POST) ou via l'URL (GET)." |
+| $_POST / $_GET | "Données envoyées via un formulaire (POST) ou via l'URL (GET)." |
+| `query()` | "Exécute une requête SQL simple sans paramètres. À utiliser uniquement quand il n'y a aucune variable utilisateur." |
+| `$stmt` | "L'objet (PDOStatement) résultant d'une requête préparée. Il sert de pont pour envoyer les données et récupérer les résultats." |
 
 ---
 

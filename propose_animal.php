@@ -42,22 +42,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // 2. Insertion des informations de l'animal dans la base de données
-    // On utilise une requête préparée pour se protéger contre les injections SQL
-    $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image, age, health, character, availability, subcategory_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    
-    // Exécution de la requête en lui passant les valeurs récupérées du formulaire
-    $success = $stmt->execute([
-        $_POST['name'], 
-        $_POST['description'], 
-        $_POST['price'], 
-        $imagePath,
-        $_POST['age'] ?? null,
-        $_POST['health'] ?? null,
-        $_POST['character'] ?? null,
-        $_POST['availability'] ?? null,
-        $_POST['subcategory_id'] ?? null
-    ]);
+    // --- NOUVEAU : Validation des données ---
+    // On vérifie que tous les champs obligatoires sont bien remplis
+    if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || 
+        empty($_POST['subcategory_id']) || empty($_POST['age']) || 
+        empty($_POST['health']) || empty($_POST['character']) || !isset($_FILES['fichier']) || $_FILES['fichier']['error'] !== 0) {
+        
+        $message = "Tous les champs sont obligatoires, y compris l'image !";
+        $success = false;
+    } 
+    // On vérifie que le prix n'est pas négatif
+    elseif ($_POST['price'] < 0) {
+        $message = "Le prix ne peut pas être négatif.";
+        $success = false;
+    }
+    // On vérifie que l'âge n'est pas négatif
+    elseif ($_POST['age'] < 0) {
+        $message = "L'âge ne peut pas être négatif.";
+        $success = false;
+    }
+    else {
+        // Insertion des informations de l'animal dans la base de données si tout est OK
+        $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image, age, health, character, subcategory_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        
+        $success = $stmt->execute([
+            $_POST['name'], 
+            $_POST['description'], 
+            $_POST['price'], 
+            $imagePath,
+            $_POST['age'],
+            $_POST['health'],
+            $_POST['character'],
+            $_POST['subcategory_id']
+        ]);
+
+        if ($success) {
+            $message = "Votre animal a été ajouté avec succès !";
+        } else {
+            $message = "Une erreur est survenue lors de l'ajout.";
+        }
+    }
 
     // Affichage d'un message selon le résultat de l'insertion
     if ($success) {
@@ -93,7 +117,7 @@ include 'includes/header.php';
             <textarea name="description" placeholder="Parlez-nous un peu de lui..." rows="4" required style="width: 100%; padding: 1rem; border: 3px solid var(--border); border-radius: 10px; margin-bottom: 1.5rem; resize: vertical; font-size: 1rem; box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1); font-family: inherit; font-weight: bold;"></textarea>
             
             <label style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem;">Prix d'adoption (EUR)</label>
-            <input type="number" step="0.01" name="price" placeholder="Ex: 50.00" required>
+            <input type="number" step="0.01" name="price" placeholder="Ex: 50.00" min="0" required>
 
             <label style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem;">Espèce / Catégorie</label>
             <select name="subcategory_id" required>
@@ -104,26 +128,19 @@ include 'includes/header.php';
                 <?php endforeach; ?>
             </select>
 
-            <!-- Grille pour afficher deux petits champs côte à côte -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div>
-                    <label style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem;">Âge (ans)</label>
-                    <input type="number" name="age" placeholder="Ex: 3">
-                </div>
-                <div>
-                    <label style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem;">Disponibilité</label>
-                    <input type="text" name="availability" placeholder="Ex: Immédiate">
-                </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem;">Âge (ans)</label>
+                <input type="number" name="age" placeholder="Ex: 3" min="0" required>
             </div>
 
             <label style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem;">Santé</label>
-            <input type="text" name="health" placeholder="Ex: Vacciné, en pleine forme">
+            <input type="text" name="health" placeholder="Ex: Vacciné, en pleine forme" required>
 
             <label style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem;">Caractère</label>
-            <input type="text" name="character" placeholder="Ex: Très affectueux, calme">
+            <input type="text" name="character" placeholder="Ex: Très affectueux, calme" required>
 
             <label for="fichier" style="display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 0.5rem; margin-top: 1rem;">Image de l'animal (jpeg, png, jpg)</label>
-            <input type="file" id="fichier" name="fichier" accept=".jpg,.jpeg,.png">
+            <input type="file" id="fichier" name="fichier" accept=".jpg,.jpeg,.png" required>
 
             <button type="submit" style="margin-top: 1rem;">Proposer cet animal</button>
         </form>

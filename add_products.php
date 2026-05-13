@@ -37,18 +37,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // -------------------------------------------
     }
 
-    // 5. Insérer le produit dans la base de données. On ajoute l'imagePath qu'on vient de calculer (ou null s'il n'y a pas d'image)
-    $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image, age, health, character, availability, subcategory_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    // --- NOUVEAU : Validation des données ---
+    // On vérifie que tous les champs obligatoires sont remplis (sauf l'image qui est gérée au-dessus)
+    if (empty($_POST['name']) || empty($_POST['description']) || empty($_POST['price']) || 
+        empty($_POST['subcategory_id']) || empty($_POST['age']) || 
+        empty($_POST['health']) || empty($_POST['character'])) {
+        
+        // En cas d'erreur, on redirige avec un message d'erreur (si le système de message est implémenté)
+        // Ici on va juste rediriger pour simplifier
+        header('Location: admin_products.php?error=champs_manquants');
+        exit();
+    } 
+    // Interdiction des prix négatifs
+    elseif ($_POST['price'] < 0) {
+        header('Location: admin_products.php?error=prix_negatif');
+        exit();
+    }
+    // Interdiction des âges négatifs
+    elseif ($_POST['age'] < 0) {
+        header('Location: admin_products.php?error=age_negatif');
+        exit();
+    }
+
+    // 5. Insérer le produit dans la base de données si tout est valide
+    $stmt = $pdo->prepare("INSERT INTO products (name, description, price, image, age, health, character, subcategory_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->execute([
         $_POST['name'], 
         $_POST['description'], 
         $_POST['price'], 
         $imagePath,
-        $_POST['age'] ?? null,
-        $_POST['health'] ?? null,
-        $_POST['character'] ?? null,
-        $_POST['availability'] ?? null,
-        $_POST['subcategory_id'] ?? null
+        $_POST['age'],
+        $_POST['health'],
+        $_POST['character'],
+        $_POST['subcategory_id']
     ]);
 }
 

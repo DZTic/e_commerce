@@ -60,7 +60,7 @@ include 'includes/header.php';
             <input type="text" name="description" placeholder="Courte description..." required>
             
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Prix (EUR)</label>
-            <input type="number" step="0.01" name="price" placeholder="59.99" required>
+            <input type="number" step="0.01" name="price" placeholder="59.99" min="0" required>
 
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Espèce / Catégorie</label>
             <select name="subcategory_id" required>
@@ -71,20 +71,19 @@ include 'includes/header.php';
             </select>
 
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Âge (ans)</label>
-            <input type="number" name="age" placeholder="Ex: 2">
+            <input type="number" name="age" placeholder="Ex: 2" min="0" required>
 
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Santé</label>
-            <input type="text" name="health" placeholder="Ex: Vacciné et pucé">
+            <input type="text" name="health" placeholder="Ex: Vacciné et pucé" required>
 
             <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Caractère</label>
-            <input type="text" name="character" placeholder="Ex: Joueur et calme">
+            <input type="text" name="character" placeholder="Ex: Joueur et calme" required>
 
-            <label style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Disponibilité</label>
-            <input type="text" name="availability" placeholder="Ex: Immédiate">
+
 
             <label for="fichier" style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; margin-top: 1rem; cursor: pointer;">Image de l'animal (jpeg, png, jpg)</label>
             <!-- Le champ de type "file" permet à l'utilisateur de choisir un fichier sur son ordinateur -->
-            <input type="file" id="fichier" name="fichier" accept=".jpg,.jpeg,.png">
+            <input type="file" id="fichier" name="fichier" accept=".jpg,.jpeg,.png" required>
 
             <button type="submit">Ajouter le produit</button>
         </form>

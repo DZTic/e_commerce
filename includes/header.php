@@ -7,7 +7,7 @@ require_once dirname(__DIR__) . '/config.php';
 // Calcul du total du panier pour le badge
 $cart_badges = 0;
 if (isset($_SESSION['user_id'])) {
-    $stmt = $pdo->prepare("SELECT SUM(quantity) as total FROM cart_items WHERE user_id = ?");
+    $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM cart_items WHERE user_id = ?");
     $stmt->execute([$_SESSION['user_id']]);
     $cart_badges = $stmt->fetchColumn() ?: 0;
 }

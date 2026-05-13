@@ -21,17 +21,23 @@ $stmt = $pdo->prepare("SELECT * FROM cart_items WHERE user_id = ? AND product_id
 $stmt->execute([$user_id, $product_id]);
 
 if ($stmt->fetch()) {
-    // Incrémente la quantité si l'article existe déjà
-    $pdo->prepare("UPDATE cart_items SET quantity = quantity + 1 WHERE user_id = ? AND product_id = ?")
-        ->execute([$user_id, $product_id]);
+    // Un animal est unique, on ne peut l'acheter qu'une seule fois.
+    // Donc si l'article existe déjà dans le panier, on ne l'incrémente pas.
 } else {
-    // Sinon, ajoute l'article avec une quantité de 1
-    $pdo->prepare("INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, 1)")
-        ->execute([$user_id, $product_id]);
+    // Vérifie si le produit est déjà vendu (par mesure de sécurité) avant de l'ajouter
+    $stmt_sold = $pdo->prepare("SELECT is_sold FROM products WHERE id = ?");
+    $stmt_sold->execute([$product_id]);
+    $is_sold = $stmt_sold->fetchColumn();
+
+    if (!$is_sold) {
+        // Sinon, ajoute l'article avec une quantité fixe de 1
+        $pdo->prepare("INSERT INTO cart_items (user_id, product_id) VALUES (?, ?)")
+            ->execute([$user_id, $product_id]);
+    }
 }
 
 // Calcul du nouveau total d'articles pour la réponse AJAX
-$stmt = $pdo->prepare("SELECT SUM(quantity) as total FROM cart_items WHERE user_id = ?");
+$stmt = $pdo->prepare("SELECT COUNT(*) as total FROM cart_items WHERE user_id = ?");
 $stmt->execute([$user_id]);
 $total_items = $stmt->fetchColumn() ?: 0;
 

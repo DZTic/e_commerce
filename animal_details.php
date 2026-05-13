@@ -43,23 +43,33 @@ if ($id > 0) {
                 <li><strong>Âge :</strong> <?= htmlspecialchars($animal['age'] ?? 'Inconnu') ?> ans</li>
                 <li><strong>Santé :</strong> <?= htmlspecialchars($animal['health'] ?? 'Non spécifiée') ?></li>
                 <li><strong>Caractère :</strong> <?= htmlspecialchars($animal['character'] ?? 'Non spécifié') ?></li>
-                <li><strong>Disponibilité :</strong> <?= htmlspecialchars($animal['availability'] ?? 'Inconnue') ?></li>
             </ul>
 
             <?php
-            // On vérifie si l'utilisateur est connecté et si le produit est dans ses favoris
+            // On vérifie si l'utilisateur est connecté et si le produit est dans ses favoris ou son panier
             $is_favorite = false;
+            $is_in_cart = false;
             if (isset($_SESSION['user_id'])) {
                 $fav_stmt = $pdo->prepare("SELECT id FROM favorites WHERE user_id = ? AND product_id = ?");
                 $fav_stmt->execute([$_SESSION['user_id'], $animal['id']]);
                 $is_favorite = $fav_stmt->fetch() !== false;
+
+                $cart_stmt = $pdo->prepare("SELECT id FROM cart_items WHERE user_id = ? AND product_id = ?");
+                $cart_stmt->execute([$_SESSION['user_id'], $animal['id']]);
+                $is_in_cart = $cart_stmt->fetch() !== false;
             }
             ?>
             <div style="display: flex; gap: 10px; margin-top: 30px;">
-                <form method="post" action="add_to_cart.php" style="flex: 1;">
-                    <input type="hidden" name="product_id" value="<?= $animal['id'] ?>">
-                    <button type="submit" class="btn-outline" style="width: 100%;">Adopter maintenant</button>
-                </form>
+                <?php if ($animal['is_sold']): ?>
+                    <button type="button" class="btn-outline" style="flex: 1; background-color: #ffe6e6; border-color: #ffcccc; color: #cc0000; cursor: not-allowed;" disabled>Déjà adopté</button>
+                <?php elseif ($is_in_cart): ?>
+                    <button type="button" class="btn-outline btn-disabled" style="flex: 1;" disabled>Déjà dans le panier</button>
+                <?php else: ?>
+                    <form method="post" action="add_to_cart.php" style="flex: 1;">
+                        <input type="hidden" name="product_id" value="<?= $animal['id'] ?>">
+                        <button type="submit" class="btn-outline" style="width: 100%;">Adopter maintenant</button>
+                    </form>
+                <?php endif; ?>
                 
                 <!-- Formulaire d'ajout aux favoris en AJAX dans la pop-up -->
                 <button type="button" onclick="event.stopPropagation(); toggleFavorite(<?= $animal['id'] ?>)" id="btn-fav-<?= $animal['id'] ?>" class="btn-favorite <?= $is_favorite ? 'active' : '' ?>" style="background: <?= $is_favorite ? '#ffe6e6' : 'white' ?>; border: 3px solid var(--border); border-radius: 10px; font-size: 1.5rem; cursor: pointer; color: <?= $is_favorite ? 'red' : 'var(--text-main)' ?>; padding: 10px; height: 100%; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; width: 60px; transition: all 0.1s ease;">

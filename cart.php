@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 $stmt = $pdo->prepare("
-    SELECT p.id, p.name, p.price, ci.quantity
+    SELECT p.id, p.name, p.price
     FROM cart_items ci
     JOIN products p ON ci.product_id = p.id
     WHERE ci.user_id = ?
@@ -19,7 +19,7 @@ $stmt->execute([$user_id]);
 $items = $stmt->fetchAll();
 
 $stmt = $pdo->prepare("
-    SELECT SUM(ci.quantity * p.price) as total_price
+    SELECT SUM(p.price) as total_price
     FROM cart_items ci
     JOIN products p ON ci.product_id = p.id
     WHERE ci.user_id = ?
@@ -51,25 +51,12 @@ include 'includes/header.php';
                     <td><span style="font-weight: 500;"><?= htmlspecialchars($item['name']) ?></span></td>
                     <td><?= number_format($item['price'], 2) ?> EUR</td>
                     <td>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <!-- Bouton -1 -->
-                            <form method="post" action="remove_from_cart.php" style="margin: 0;">
-                                <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                                <input type="hidden" name="action" value="decrement">
-                                <button type="submit" class="btn-outline" style="width: auto; padding: 0.2rem 0.6rem; font-size: 0.9rem; font-weight: bold; background: white; border-color: var(--border); border-radius: 5px; cursor: pointer;">-</button>
-                            </form>
-                            
-                            <span style="font-size: 1.1rem; font-weight: bold; min-width: 20px; text-align: center;"><?= $item['quantity'] ?></span>
-                            
-                            <!-- Bouton +1 -->
-                            <form method="post" action="remove_from_cart.php" style="margin: 0;">
-                                <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
-                                <input type="hidden" name="action" value="increment">
-                                <button type="submit" class="btn-outline" style="width: auto; padding: 0.2rem 0.6rem; font-size: 0.9rem; font-weight: bold; background: white; border-color: var(--border); border-radius: 5px; cursor: pointer;">+</button>
-                            </form>
+                        <div style="display: flex; align-items: center; justify-content: center;">
+                            <!-- La quantité est toujours de 1 car chaque animal est unique -->
+                            <span style="font-size: 1.1rem; font-weight: bold; min-width: 20px; text-align: center;">1</span>
                         </div>
                     </td>
-                    <td><span style="color: var(--text-main); font-weight: 500;"><?= number_format($item['price'] * $item['quantity'], 2) ?> EUR</span></td>
+                    <td><span style="color: var(--text-main); font-weight: 500;"><?= number_format($item['price'], 2) ?> EUR</span></td>
                     <td>
                         <form method="post" action="remove_from_cart.php">
                             <input type="hidden" name="product_id" value="<?= $item['id'] ?>">

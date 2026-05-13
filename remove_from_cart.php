@@ -17,29 +17,10 @@ if ($action === 'clear') {
     // Vider complètement le panier
     $pdo->prepare("DELETE FROM cart_items WHERE user_id = ?")->execute([$user_id]);
 } elseif ($product_id) {
-    if ($action === 'increment') {
-        // Ajouter +1 à la quantité
-        $pdo->prepare("UPDATE cart_items SET quantity = quantity + 1 WHERE user_id = ? AND product_id = ?")
-            ->execute([$user_id, $product_id]);
-    } elseif ($action === 'decrement') {
-        // Retirer le produit 1 par 1
-        $stmt = $pdo->prepare("SELECT quantity FROM cart_items WHERE user_id = ? AND product_id = ?");
-        $stmt->execute([$user_id, $product_id]);
-        $qty = $stmt->fetchColumn();
-
-        if ($qty > 1) {
-            // S'il y a plus d'1 quantité, on décrémente
-            $pdo->prepare("UPDATE cart_items SET quantity = quantity - 1 WHERE user_id = ? AND product_id = ?")
-                ->execute([$user_id, $product_id]);
-        } else {
-            // Sinon on supprime la ligne
-            $pdo->prepare("DELETE FROM cart_items WHERE user_id = ? AND product_id = ?")
-                ->execute([$user_id, $product_id]);
-        }
-    } else {
-        // Action = 'remove' : Supprimer toute la ligne du panier d'un coup
-        $pdo->prepare("DELETE FROM cart_items WHERE user_id = ? AND product_id = ?")
-            ->execute([$user_id, $product_id]);
-    }
-}header('Location: cart.php');
+    // Action = 'remove' : Supprimer toute la ligne du panier d'un coup
+    // Les actions 'increment' et 'decrement' ont été supprimées car un animal ne peut être acheté qu'une seule fois
+    $pdo->prepare("DELETE FROM cart_items WHERE user_id = ? AND product_id = ?")
+        ->execute([$user_id, $product_id]);
+}
+header('Location: cart.php');
 exit();

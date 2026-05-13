@@ -43,16 +43,32 @@
                         badge.classList.add('pulse');
                     }
                     
-                    // Feedback visuel de succès sur le bouton
-                    btn.innerText = '✅ Ajouté';
-                    btn.classList.add('btn-success'); // On suppose qu'une classe existe ou on change le style directement
+                    // On récupère l'ID du produit ajouté
+                    const productId = formData.get('product_id');
+
+                    // On cherche tous les formulaires d'ajout au panier pour cet animal (carte + modal)
+                    const allForms = document.querySelectorAll(`form[action*="add_to_cart.php"] input[name="product_id"][value="${productId}"]`);
                     
-                    // On remet le bouton à son état initial après 2 secondes
-                    setTimeout(() => {
-                        btn.innerText = originalText;
-                        btn.disabled = false;
-                        btn.classList.remove('btn-success');
-                    }, 2000);
+                    allForms.forEach(input => {
+                        const parentForm = input.closest('form');
+                        
+                        // On remplace le formulaire par un bouton désactivé
+                        const disabledBtn = document.createElement('button');
+                        disabledBtn.type = 'button';
+                        disabledBtn.className = 'btn-outline btn-disabled';
+                        disabledBtn.innerText = 'Déjà dans le panier';
+                        disabledBtn.disabled = true;
+                        disabledBtn.style.width = '100%';
+                        disabledBtn.onclick = (e) => e.stopPropagation();
+                        
+                        // Si on est dans les favoris ou le modal, on garde le flex: 1
+                        if (parentForm.style.flex === '1' || (parentForm.parentElement && parentForm.parentElement.style.display === 'flex')) {
+                            disabledBtn.style.flex = '1';
+                        }
+
+                        parentForm.parentNode.replaceChild(disabledBtn, parentForm);
+                    });
+
                 } else if (data.error === 'Non connecté') {
                     // Si la session a expiré, on redirige vers la connexion
                     window.location.href = 'login.php';
@@ -69,4 +85,3 @@
     </script>
 </body>
 </html>
-

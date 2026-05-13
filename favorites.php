@@ -29,6 +29,14 @@ $products = $stmt->fetchAll();
 // On récupère également la liste des IDs favoris pour savoir quoi afficher (bien qu'ici ils le soient tous)
 $user_favorites = array_column($products, 'id');
 
+// Récupération du panier de l'utilisateur
+$user_cart = [];
+if (isset($_SESSION['user_id'])) {
+    $cart_stmt = $pdo->prepare("SELECT product_id FROM cart_items WHERE user_id = ?");
+    $cart_stmt->execute([$_SESSION['user_id']]);
+    $user_cart = $cart_stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
 include 'includes/header.php';
 ?>
 
@@ -41,7 +49,9 @@ include 'includes/header.php';
     <?php if (empty($products)): ?>
         <p>Vous n'avez pas encore de favoris. <a href="index.php">Découvrez nos animaux</a></p>
     <?php else: ?>
-        <?php foreach($products as $row) { ?>
+        <?php foreach($products as $row) { 
+            $is_in_cart = in_array($row['id'], $user_cart);
+        ?>
             <!-- L'événement au clic ouvre la pop-up avec les détails de l'animal -->
             <div class="card" onclick="openAnimalDetails(<?= $row['id'] ?>)" style="cursor: pointer;">
                 
@@ -59,11 +69,17 @@ include 'includes/header.php';
                 <div class="price"><?= number_format($row['price'], 2) ?> EUR</div>
                 
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
-                    <!-- Le formulaire d'ajout au panier -->
-                    <form method="post" action="add_to_cart.php" onclick="event.stopPropagation();" style="flex: 1;">
-                        <input type="hidden" name="product_id" value="<?= $row['id'] ?>">
-                        <button type="submit" class="btn-outline" style="width: 100%;">Ajouter au panier</button>
-                    </form>
+                    <!-- Le formulaire d'ajout au panier ou l'indication -->
+                    <?php if ($row['is_sold']): ?>
+                        <button type="button" class="btn-outline" style="flex: 1; background-color: #ffe6e6; border-color: #ffcccc; color: #cc0000; cursor: not-allowed;" onclick="event.stopPropagation();" disabled>Déjà adopté</button>
+                    <?php elseif ($is_in_cart): ?>
+                        <button type="button" class="btn-outline btn-disabled" style="flex: 1;" onclick="event.stopPropagation();" disabled>Déjà dans le panier</button>
+                    <?php else: ?>
+                        <form method="post" action="add_to_cart.php" onclick="event.stopPropagation();" style="flex: 1;">
+                            <input type="hidden" name="product_id" value="<?= $row['id'] ?>">
+                            <button type="submit" class="btn-outline" style="width: 100%;">Ajouter au panier</button>
+                        </form>
+                    <?php endif; ?>
 
                     <!-- Bouton pour retirer des favoris en AJAX -->
                     <button type="button" onclick="event.stopPropagation(); toggleFavorite(<?= $row['id'] ?>)" id="btn-fav-<?= $row['id'] ?>" class="btn-favorite active" style="background: #ffe6e6; border: 3px solid var(--border); border-radius: 10px; cursor: pointer; color: red; padding: 10px; height: 100%; box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; width: 60px; transition: all 0.1s ease;">
